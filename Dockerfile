@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM node:20-alpine as build
 
 RUN npm install -g pnpm
 
@@ -8,9 +8,14 @@ COPY package.json .
 
 RUN pnpm install
 
-
 COPY . .
 
 RUN pnpm build
 
-CMD [ "node", ".output/server/index.mjs" ]
+FROM node:20-alpine as runtime
+
+WORKDIR /usr/app
+
+COPY --from=build /usr/app/.output .
+
+CMD [ "node", "./server/index.mjs" ]
