@@ -1,0 +1,7 @@
+@use "./colors";
+
+.error-msg {
+  color: map-get(colors.$colors, danger);
+  margin: 0;
+  font-size: 12px;
+}
