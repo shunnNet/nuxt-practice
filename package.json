@@ -10,18 +10,27 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@iconify-json/mdi": "^1.1.55",
     "@nuxt/devtools": "latest",
+    "@nuxt/image": "^1.0.0",
     "@nuxtjs/tailwindcss": "^6.8.0",
+    "@unocss/autocomplete": "^0.57.7",
     "@unocss/nuxt": "^0.57.2",
+    "@unocss/preset-mini": "^0.57.7",
+    "@unocss/preset-web-fonts": "^0.57.5",
+    "@unocss/transformer-directives": "^0.57.7",
+    "@unocss/transformer-variant-group": "^0.57.5",
     "@vee-validate/rules": "^4.11.8",
     "msw": "^2.0.5",
     "nuxt": "^3.8.0",
+    "nuxt-primevue": "^0.2.0",
     "sass": "^1.69.5",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@tanstack/vue-query": "^4.37.1",
+    "@unocss/reset": "^0.57.7",
     "@vee-validate/nuxt": "^4.11.8",
     "@vee-validate/yup": "^4.11.8",
     "@vee-validate/zod": "^4.11.8",

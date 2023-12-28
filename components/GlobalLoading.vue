@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { globalMiddleware } from "#build/middleware";
-import type { RouteLocationNormalized } from "vue-router";
+import { globalMiddleware } from "#build/middleware"
+import type { RouteLocationNormalized } from "vue-router"
 
 const show = ref(false)
-const finish = () => show.value = false
-const start = () => show.value = true
+const finish = () => (show.value = false)
+const start = () => (show.value = true)
 if (import.meta.client) {
   const nuxtApp = useNuxtApp()
   const router = useRouter()
@@ -18,13 +18,21 @@ if (import.meta.client) {
   })
 
   router.afterEach((_to, _from, failure) => {
-    if (failure) {
-      finish()
-    }
+    console.log("afterEach")
+    finish()
+    // if (failure) {
+    // }
   })
 
-  const unsubPage = nuxtApp.hook('page:finish', () => { finish() })
-  const unsubError = nuxtApp.hook('vue:error', () => { finish() })
+  // nuxtApp.hook("")
+
+  const unsubPage = nuxtApp.hook("page:finish", () => {
+    console.log("page:finish")
+    finish()
+  })
+  const unsubError = nuxtApp.hook("vue:error", () => {
+    finish()
+  })
 
   onBeforeUnmount(() => {
     const index = globalMiddleware.indexOf(start)
@@ -35,25 +43,35 @@ if (import.meta.client) {
     unsubError()
     finish()
   })
-
 }
 
 function generateRouteKey(route: RouteLocationNormalized) {
-  const source = route?.meta.key ?? route.path
-    .replace(/(:\w+)\([^)]+\)/g, '$1')
-    .replace(/(:\w+)[?+*]/g, '$1')
-    .replace(/:\w+/g, r => route.params[r.slice(1)]?.toString() || '')
-  return typeof source === 'function' ? source(route) : source
+  const source =
+    route?.meta.key ??
+    route.path
+      .replace(/(:\w+)\([^)]+\)/g, "$1")
+      .replace(/(:\w+)[?+*]/g, "$1")
+      .replace(/:\w+/g, (r) => route.params[r.slice(1)]?.toString() || "")
+  return typeof source === "function" ? source(route) : source
 }
 
-function isChangingPage(to: RouteLocationNormalized, from: RouteLocationNormalized) {
-  if (to === from) { return false }
+function isChangingPage(
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+) {
+  if (to === from) {
+    return false
+  }
 
   // If route keys are different then it will result in a rerender
-  if (generateRouteKey(to) !== generateRouteKey(from)) { return true }
+  if (generateRouteKey(to) !== generateRouteKey(from)) {
+    return true
+  }
 
-  const areComponentsSame = to.matched.every((comp, index) =>
-    comp.components && comp.components.default === from.matched[index]?.components?.default
+  const areComponentsSame = to.matched.every(
+    (comp, index) =>
+      comp.components &&
+      comp.components.default === from.matched[index]?.components?.default,
   )
   if (areComponentsSame) {
     return false
@@ -62,7 +80,6 @@ function isChangingPage(to: RouteLocationNormalized, from: RouteLocationNormaliz
 }
 
 // const loading = ref(false)
-
 </script>
 
 <template>
@@ -72,8 +89,6 @@ function isChangingPage(to: RouteLocationNormalized, from: RouteLocationNormaliz
     </div>
   </FadeTransition>
 </template>
-
-
 
 <style lang="scss" scoped>
 .loading {
